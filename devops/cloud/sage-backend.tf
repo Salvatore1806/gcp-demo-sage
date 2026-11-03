@@ -20,10 +20,7 @@ resource "google_cloud_run_v2_service_iam_member" "sage_public" {
 
 # Servizio HTTP stateless: riceve la domanda, fa retrieval su Firestore, chiama l'LLM,
 # risponde. Nessuna orchestrazione multi-componente, quindi niente GKE: Cloud Run basta.
-resource "google_cloud_run_v2_service" "sage" {
-  project  = var.project_id
-  name     = local.app_name
-  location = var.region
+
 
   template {
     service_account = google_service_account.sage_run.email
