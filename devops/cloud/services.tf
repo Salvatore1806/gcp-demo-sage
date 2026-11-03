@@ -6,6 +6,8 @@ locals {
     "iamcredentials.googleapis.com",   # Workload Identity Federation (pipeline GitHub)
     "cloudresourcemanager.googleapis.com",
     "serviceusage.googleapis.com",
+    "firestore.googleapis.com",
+    "bigquery.googleapis.com",
     "aiplatform.googleapis.com",       # Vertex AI (Gemini)
     "storage.googleapis.com",          # Bucket dei documenti
   ]

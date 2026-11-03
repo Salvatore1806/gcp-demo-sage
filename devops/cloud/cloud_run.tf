@@ -8,7 +8,15 @@ resource "google_cloud_run_v2_service" "sage" { # <--- CORRETTO: rinominato in "
     service_account = google_service_account.sage_run.email
 
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.sage.repository_id}/app:latest"
+      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      env {
+        name  = "SAGE_PROJECT_ID"
+        value = var.project_id
+      }
+      env {
+        name  = "SAGE_BQ_DATASET"
+        value = var.bq_dataset
+      }
 
       resources {
         limits = {
@@ -28,6 +36,13 @@ resource "google_cloud_run_v2_service" "sage" { # <--- CORRETTO: rinominato in "
 
   depends_on = [
     google_project_service.apis,
-    google_project_iam_member.sage_run_vertex
+    google_project_iam_member.sage_run
   ]
+  resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
+  project  = var.project_id
+  location = var.region
+  name     = google_cloud_run_v2_service.sage.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+  }
 }

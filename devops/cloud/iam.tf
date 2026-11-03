@@ -6,9 +6,10 @@ resource "google_service_account" "sage_run" {
   depends_on = [google_project_service.apis]
 }
 
-# Permesso di chiamare Vertex AI (modelli Gemini).
-resource "google_project_iam_member" "sage_run_vertex" {
-  project = var.project_id
-  role    = "roles/aiplatform.user"
-  member  = "serviceAccount:${google_service_account.sage_run.email}"
+resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
+  project  = var.project_id
+  location = var.region
+  name     = google_cloud_run_v2_service.sage.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }
