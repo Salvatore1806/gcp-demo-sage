@@ -36,13 +36,7 @@ resource "google_cloud_run_v2_service" "sage" { # <--- CORRETTO: rinominato in "
 
   depends_on = [
     google_project_service.apis,
-    google_project_iam_member.sage_run
+    
   ]
-  resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
-  project  = var.project_id
-  location = var.region
-  name     = google_cloud_run_v2_service.sage.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-  }
+
 }
