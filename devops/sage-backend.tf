@@ -9,6 +9,14 @@ resource "google_artifact_registry_repository" "sage" {
 
   depends_on = [google_project_service.apis]
 }
+# Accesso pubblico (non autenticato): chiunque può invocare il servizio.
+resource "google_cloud_run_v2_service_iam_member" "sage_public" {
+  project  = var.project_id
+  location = var.region
+  name     = google_cloud_run_v2_service.sage_backend.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
 
 # Servizio HTTP stateless: riceve la domanda, fa retrieval su Firestore, chiama l'LLM,
 # risponde. Nessuna orchestrazione multi-componente, quindi niente GKE: Cloud Run basta.
