@@ -18,3 +18,8 @@ resource "google_storage_bucket_iam_member" "sage_run_instructions_viewer" {
   role   = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.sage_run.email}"
 }
+resource "google_project_iam_member" "sage_run_aiplatform_user" {
+  project = var.project_id
+  role    = "roles/aiplatform.user"
+  member  = "serviceAccount:${google_service_account.sage_run.email}"
+}
