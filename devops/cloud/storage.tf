@@ -12,3 +12,15 @@ resource "google_storage_bucket" "sage_docs" {
 
   depends_on = [google_project_service.apis]
 }
+# Bucket per le istruzioni aggiuntive di Sage.
+resource "google_storage_bucket" "instructions" {
+  name          = "${local.name_prefix}-instructions"
+  project       = var.project_id
+  location      = var.region
+  storage_class = "STANDARD"
+
+  uniform_bucket_level_access = true
+  force_destroy               = true
+
+  depends_on = [google_project_service.apis]
+}

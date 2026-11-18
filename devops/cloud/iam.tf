@@ -13,4 +13,8 @@ resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
   role     = "roles/run.invoker"
   member   = "allUsers"
   }
-
+resource "google_storage_bucket_iam_member" "sage_run_instructions_viewer" {
+  bucket = google_storage_bucket.instructions.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.sage_run.email}"
+}

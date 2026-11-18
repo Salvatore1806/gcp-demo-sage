@@ -31,6 +31,10 @@ class AppConfig(BaseSettings):
     bq_dataset: str = "sage_analytics"
     bq_table: str = "question_log"
 
+    # Cloud Storage (instructions)
+    instructions_bucket: str = ""
+    instructions_file: str = "istruzioni.md"
+
     # Ingestion
     chunk_max_chars: int = 1500
 
@@ -40,6 +44,8 @@ class AppConfig(BaseSettings):
 
         `bq_dataset` is the base name; after validation it is always the final dataset id.
         """
+        if not self.instructions_bucket and self.resource_prefix:
+            self.instructions_bucket = f"{self.resource_prefix}-instructions"
         if not self.resource_prefix:
             return self
         self.firestore_database = self.resource_prefix
